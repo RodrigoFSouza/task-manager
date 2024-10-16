@@ -13,9 +13,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,10 +37,10 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "resource not found",
                     content = @Content) })
     @Operation(summary = "Create new User API")
-    public ResponseEntity<Void> newUser(@RequestBody CreateUserRequest request) {
+    public ResponseEntity<Void> newUser(@Valid @RequestBody CreateUserRequest request) {
         userService.newUser(request);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping

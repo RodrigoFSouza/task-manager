@@ -13,10 +13,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -60,8 +63,10 @@ public class TodoController {
                     content = @Content) })
     @Operation(summary = "Create new todo API")
     @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_BASIC')")
-    public ResponseEntity<Void> saveTodo(@RequestBody CreateTodoRequest request) {
-        todoService.add(request);
+    public ResponseEntity<Void> saveTodo(JwtAuthenticationToken token,
+                                         @Valid @RequestBody CreateTodoRequest request) {
+        Long userId = (Long) token.getToken().getClaims().get("userId");
+        todoService.add(request, userId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -74,7 +79,7 @@ public class TodoController {
                     content = @Content) })
     @Operation(summary = "Updated todo API")
     @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_BASIC')")
-    public ResponseEntity<Void> updateTodo(@PathVariable Long id, @RequestBody UpdateTodoRequest request) {
+    public ResponseEntity<Void> updateTodo(@PathVariable Long id,  @RequestBody UpdateTodoRequest request) {
         todoService.update(id, request);
         return ResponseEntity.noContent().build();
     }

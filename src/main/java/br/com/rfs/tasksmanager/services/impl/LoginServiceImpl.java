@@ -42,10 +42,11 @@ public class LoginServiceImpl implements LoginService {
                 .collect(Collectors.joining(" "));
         var claims = JwtClaimsSet.builder()
                 .issuer(ISSUER)
-                .subject(user.get().getId().toString())
+                .subject(user.get().getUsername())
                 .expiresAt(now.plusSeconds(EXPIRATION_TIME))
                 .issuedAt(now)
                 .claim("scope", scopes)
+                .claim("userId", user.get().getId())
                 .build();
 
         var jwtValue = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();

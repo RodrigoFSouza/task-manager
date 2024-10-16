@@ -7,7 +7,7 @@ import br.com.rfs.tasksmanager.domain.dto.response.TodoResponse;
 
 public interface TodoService {
     TodoListResponse find(int page, int size, String status);
-    TodoResponse add(CreateTodoRequest request);
+    TodoResponse add(CreateTodoRequest request, Long userId);
     void update(Long id, UpdateTodoRequest request);
     void delete(Long id);
 }

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@DynamicUpdate
+@DynamicUpdate(value = true)
 public  class  Todo {
 
     @Id

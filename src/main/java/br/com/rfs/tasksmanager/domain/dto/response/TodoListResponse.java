@@ -4,7 +4,7 @@ import java.util.List;
 
 public record TodoListResponse(List<TodoResponse> todoItens,
                                int page,
-                               int pageSize,
+                               int size,
                                int totalPages,
                                long totalElements) {
 }
