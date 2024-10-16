@@ -1,0 +1,50 @@
+### POST request new user
+POST http://localhost:8080/v1/users
+Content-Type: application/json
+
+{
+  "username": "rodrigo",
+  "password": "Teste@123"
+}
+
+### POST login with user admin
+POST http://localhost:8080/v1/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "123"
+}
+
+<> 2024-10-15T234616.200.json
+
+### GET request list all users
+GET http://localhost:8080/v1/users
+Accept: application/json
+Authorization: Bearer {{token}}
+
+<> 2024-10-15T234850.200.json
+
+### GET all by filter
+GET http://localhost:8080/v1/todos
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### POST create new todo
+POST http://localhost:8080/v1/todos
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Todo 4",
+  "description": "Descricao 4"
+}
+
+### PUT change status of todo
+PUT http://localhost:8080/v1/todos/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "status": "IN_PROGRESS"
+}
